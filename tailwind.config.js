@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        buttonBorder: "rgba(249, 210, 159, 1)",
         incorrectStart: "rgba(246, 184, 104, 1)", // Starting RGB color (e.g., red)
         incorrectEnd: "rgba(238, 107, 45, 1)", // Ending RGB color (e.g., blue)
       },
