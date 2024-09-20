@@ -1,7 +1,6 @@
-import React from "react";
 import AnswerToggle from "./AnswerToggle";
 
-const Question: React.FC = () => {
+const Question = () => {
   return (
     <div className="bg-gradient-to-b from-incorrectStart to-incorrectEnd m-4 p-12 rounded-xl">
       <div className="flex flex-col items-center justify-center gap-12">
