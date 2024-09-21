@@ -1,17 +1,18 @@
 import { useState } from "react";
 import AnswerToggleButton from "./AnswerToggleButton";
 import { motion } from "framer-motion";
+import { OptionModel } from "../models";
 
 interface AnswerToggleProps {
-  option1: string;
-  option2: string;
-  onToggle?: (selectedOption: string) => void;
+  options: OptionModel[];
+  isAllCorrect: boolean;
+  onToggle?: (selectedOption: OptionModel) => void;
 }
 
-const AnswerToggle = ({ option1, option2, onToggle }: AnswerToggleProps) => {
-  const [selectedOption, setSelectedOption] = useState<string>(option1);
+const AnswerToggle = ({ options, isAllCorrect, onToggle }: AnswerToggleProps) => {
+  const [selectedOption, setSelectedOption] = useState<OptionModel>(options[0]);
 
-  const handleToggle = (option: string) => {
+  const handleToggle = (option: OptionModel) => {
     setSelectedOption(option);
     if (onToggle) {
       onToggle(option);
@@ -24,20 +25,20 @@ const AnswerToggle = ({ option1, option2, onToggle }: AnswerToggleProps) => {
         <motion.div
           className="absolute h-full w-[calc(50%)] bg-buttonBorder rounded-full "
           animate={{
-            x: selectedOption === option1 ? "0px" : "calc(100%)",
+            x: selectedOption === options[0] ? "0px" : "calc(100%)",
           }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         />
-        <AnswerToggleButton
-          optionText={option1}
-          isSelected={selectedOption === option1}
+        {options.map((option) => (
+          <AnswerToggleButton
+          key={option.id}
+          option={option}
+          isAllCorrect={isAllCorrect}
+          isSelected={selectedOption.id === option.id}
           handleToggle={handleToggle}
         />
-        <AnswerToggleButton
-          optionText={option2}
-          isSelected={selectedOption === option2}
-          handleToggle={handleToggle}
-        />
+        ))}
+        
       </div>
     </>
   );

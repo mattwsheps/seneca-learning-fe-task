@@ -1,13 +1,16 @@
 import { cn } from "../lib/utils";
+import { OptionModel } from "../models";
 
 interface AnswerToggleButtonProps {
-  optionText: string;
+  option: OptionModel;
+  isAllCorrect: boolean;
   isSelected: boolean;
-  handleToggle: (option: string) => void;
+  handleToggle: (option: OptionModel) => void;
 }
 
 const AnswerToggleButton = ({
-  optionText,
+  option,
+  isAllCorrect,
   isSelected,
   handleToggle,
 }: AnswerToggleButtonProps) => {
@@ -18,9 +21,10 @@ const AnswerToggleButton = ({
           isSelected ? "text-unselected" : "hover:opacity-75",
           "relative z-10 w-1/2 font-bold text-2xl rounded-full p-6"
         )}
-        onClick={() => handleToggle(optionText)}
+        disabled={isAllCorrect}
+        onClick={() => handleToggle(option)}
       >
-        {optionText}
+        {option.optionText}
       </button>
     </>
   );
