@@ -1,16 +1,16 @@
-export interface Option {
+export interface OptionModel {
   id: string;
   optionText: string;
   isCorrect: boolean;
 }
 
-export interface Answer {
+export interface AnswerModel {
   id: string;
-  options: Option[];
+  options: OptionModel[];
 }
 
-export interface Question {
+export interface QuestionModel {
   id: string;
   questionText: string;
-  answers: Answer[];
+  answers: AnswerModel[];
 }
