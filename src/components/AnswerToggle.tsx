@@ -5,10 +5,11 @@ import { OptionModel } from "../models";
 
 interface AnswerToggleProps {
   options: OptionModel[];
+  isAllCorrect: boolean;
   onToggle?: (selectedOption: OptionModel) => void;
 }
 
-const AnswerToggle = ({ options, onToggle }: AnswerToggleProps) => {
+const AnswerToggle = ({ options, isAllCorrect, onToggle }: AnswerToggleProps) => {
   const [selectedOption, setSelectedOption] = useState<OptionModel>(options[0]);
 
   const handleToggle = (option: OptionModel) => {
@@ -32,6 +33,7 @@ const AnswerToggle = ({ options, onToggle }: AnswerToggleProps) => {
           <AnswerToggleButton
           key={option.id}
           option={option}
+          isAllCorrect={isAllCorrect}
           isSelected={selectedOption.id === option.id}
           handleToggle={handleToggle}
         />

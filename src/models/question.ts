@@ -7,6 +7,7 @@ export interface OptionModel {
 export interface AnswerModel {
   id: string;
   options: OptionModel[];
+  correctSelected?: boolean;
 }
 
 export interface QuestionModel {
