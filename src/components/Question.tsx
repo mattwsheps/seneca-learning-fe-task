@@ -1,17 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { OptionModel, QuestionModel } from "../models";
 import { fetchQuestion } from "../services/questions";
 import AnswerToggle from "./AnswerToggle";
 import { useQuery } from "@tanstack/react-query";
-
-interface SelectedOptions {
-  [key: string]: OptionModel;
-}
+import useCorrectness from "../hooks/useCorrectness";
+import useSelectedOptions from "../hooks/useSelectedOptions";
 
 const Question = () => {
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({});
-  const [isAllCorrect, setIsAllCorrect] = useState<boolean>(false);
-
   const {
     data: questionData,
     isLoading,
@@ -21,15 +16,14 @@ const Question = () => {
     queryFn: fetchQuestion,
   });
 
+  const { selectedOptions, setSelectedOptions, initialiseSelectedOptions } = useSelectedOptions();
+  const { isAllCorrect, checkIfCorrect } = useCorrectness(questionData, selectedOptions);
+
   useEffect(() => {
     if (questionData) {
-      const initialSelectedOptions: SelectedOptions = {};
-      questionData.answers.forEach((answer) => {
-        initialSelectedOptions[answer.id] = answer.options[0];
-      });
-      setSelectedOptions(initialSelectedOptions);
+      initialiseSelectedOptions(questionData.answers);
     }
-  }, [questionData]);
+  }, [questionData, initialiseSelectedOptions]);
 
   const handleToggles = (answerId: string, selectedOption: OptionModel) => {
     setSelectedOptions((prev) => ({
@@ -38,19 +32,9 @@ const Question = () => {
     }));
   };
 
-  const checkIfCorrect = useCallback(() => {
-    if (!questionData) return false;
-    
-    return questionData.answers.every((answer) => {
-      const selectedOption = selectedOptions[answer.id];
-      return selectedOption && selectedOption.isCorrect;
-    });
-  }, [questionData, selectedOptions]);
-
   useEffect(() => {
     if (questionData && Object.keys(selectedOptions).length === questionData.answers.length) {
-      const allCorrect = checkIfCorrect();
-      setIsAllCorrect(allCorrect);
+      checkIfCorrect();
     }
   }, [selectedOptions, questionData, checkIfCorrect]);
 
