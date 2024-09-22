@@ -9,11 +9,15 @@ const useCorrectness = (questionData: QuestionModel | undefined, selectedOptions
   const { correctCount, totalCount, isAllCorrect } = useMemo(() => {
     if (!questionData) return { correctCount: 0, totalCount: 0, isAllCorrect: false };
 
+    let correct = 0;
     const total = questionData.answers.length;
-    const correct = questionData.answers.reduce((count, answer) => {
+
+    questionData.answers.forEach((answer) => {
       const selectedOption = selectedOptions[answer.id];
-      return selectedOption && selectedOption.isCorrect ? count + 1 : count;
-    }, 0);
+      if (selectedOption && selectedOption.isCorrect) {
+        correct++;
+      }
+    });
 
     return {
       correctCount: correct,
