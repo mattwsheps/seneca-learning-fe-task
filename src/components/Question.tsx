@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import useCorrectness from "../hooks/useCorrectness";
 import useSelectedOptions from "../hooks/useSelectedOptions";
 
-
 const Question = () => {
   const {
     data: questionData,
@@ -72,8 +71,10 @@ const Question = () => {
             />
           ))}
         </div>
-          <div className="font-bold text-2xl">The answer is correct</div>
-          <div className="font-bold text-2xl">{correctnessPercentage}</div>
+        <div className="font-bold text-2xl">
+          The answer is {isAllCorrect ? "correct" : "incorrect"}
+        </div>
+        <div className="font-bold text-2xl">{correctnessPercentage}</div>
       </div>
     </div>
   );
