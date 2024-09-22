@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import useCorrectness from "../hooks/useCorrectness";
 import useSelectedOptions from "../hooks/useSelectedOptions";
 
+
 const Question = () => {
   const {
     data: questionData,
@@ -18,7 +19,7 @@ const Question = () => {
 
   const { selectedOptions, setSelectedOptions, initialiseSelectedOptions } =
     useSelectedOptions();
-  const { correctCount, totalCount, isAllCorrect, checkCorrectness } =
+  const { correctCount, totalCount, isAllCorrect } =
     useCorrectness(questionData, selectedOptions);
 
   // Initialisation of selectedOptions object when data is fetched
@@ -37,15 +38,6 @@ const Question = () => {
     },
     [setSelectedOptions]
   );
-
-  useEffect(() => {
-    if (
-      questionData &&
-      Object.keys(selectedOptions).length === questionData.answers.length
-    ) {
-      checkCorrectness();
-    }
-  }, [selectedOptions, questionData, checkCorrectness]);
 
   const correctnessPercentage = useMemo(() => {
     return totalCount > 0 ? correctCount / totalCount : 0;
