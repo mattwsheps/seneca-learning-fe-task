@@ -6,20 +6,29 @@ interface SelectedOptions {
 }
 
 const useCorrectness = (questionData: QuestionModel | undefined, selectedOptions: SelectedOptions) => {
-  const [isAllCorrect, setIsAllCorrect] = useState<boolean>(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [isAllCorrect, setIsAllCorrect] = useState(false);
 
-  const checkIfCorrect = useCallback(() => {
+  const checkCorrectness = useCallback(() => {
     if (!questionData) return;
     
-    const allCorrect = questionData.answers.every((answer) => {
+    let correct = 0;
+    const total = questionData.answers.length;
+
+    questionData.answers.forEach((answer) => {
       const selectedOption = selectedOptions[answer.id];
-      return selectedOption && selectedOption.isCorrect;
+      if (selectedOption && selectedOption.isCorrect) {
+        correct++;
+      }
     });
 
-    setIsAllCorrect(allCorrect);
+    setCorrectCount(correct);
+    setTotalCount(total);
+    setIsAllCorrect(correct === total);
   }, [questionData, selectedOptions]);
 
-  return { isAllCorrect, checkIfCorrect };
+  return { correctCount, totalCount, isAllCorrect, checkCorrectness };
 };
 
 export default useCorrectness;

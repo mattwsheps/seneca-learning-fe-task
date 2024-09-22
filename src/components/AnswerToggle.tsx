@@ -21,9 +21,9 @@ const AnswerToggle = ({ options, isAllCorrect, onToggle }: AnswerToggleProps) =>
 
   return (
     <>
-      <div className="relative flex w-full max-w-screen-lg items-center justify-between border-2 border-buttonBorder rounded-full">
+      <div className="relative flex w-full max-w-screen-lg items-center justify-between border-2 border-white border-opacity-60 rounded-full">
         <motion.div
-          className="absolute h-full w-[calc(50%)] bg-buttonBorder rounded-full "
+          className="absolute h-full w-[calc(50%)] bg-white bg-opacity-60 rounded-full "
           animate={{
             x: selectedOption === options[0] ? "0px" : "calc(100%)",
           }}
