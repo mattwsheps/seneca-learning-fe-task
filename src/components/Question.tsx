@@ -5,7 +5,7 @@ import AnswerToggle from "./AnswerToggle";
 import { useQuery } from "@tanstack/react-query";
 import useCorrectness from "../hooks/useCorrectness";
 import useSelectedOptions from "../hooks/useSelectedOptions";
-
+import { createGradient } from "../utils";
 
 const Question = () => {
   const {
@@ -19,8 +19,10 @@ const Question = () => {
 
   const { selectedOptions, setSelectedOptions, initialiseSelectedOptions } =
     useSelectedOptions();
-  const { correctCount, totalCount, isAllCorrect, checkCorrectness } =
-    useCorrectness(questionData, selectedOptions);
+  const { correctCount, totalCount, isAllCorrect } = useCorrectness(
+    questionData,
+    selectedOptions
+  );
 
   // Initialisation of selectedOptions object when data is fetched
   useEffect(() => {
@@ -29,7 +31,7 @@ const Question = () => {
     }
   }, [questionData, initialiseSelectedOptions]);
 
-  const handleToggles = useCallback(
+  const handleToggle = useCallback(
     (answerId: string, selectedOption: OptionModel) => {
       setSelectedOptions((prev) => ({
         ...prev,
@@ -39,24 +41,22 @@ const Question = () => {
     [setSelectedOptions]
   );
 
-  useEffect(() => {
-    if (
-      questionData &&
-      Object.keys(selectedOptions).length === questionData.answers.length
-    ) {
-      checkCorrectness();
-    }
-  }, [selectedOptions, questionData, checkCorrectness]);
-
-  const correctnessPercentage = useMemo(() => {
+  const correctnessFactor = useMemo(() => {
     return totalCount > 0 ? correctCount / totalCount : 0;
   }, [correctCount, totalCount]);
+
+  const backgroundStyle = useMemo(
+    () => ({
+      background: createGradient(correctnessFactor),
+    }),
+    [correctnessFactor]
+  );
 
   if (isLoading) return <div>Loading quiz...</div>;
   if (isError) return <div>Error loading quiz data</div>;
 
   return (
-    <div className="bg-gradient-to-b from-incorrectStart to-incorrectEnd m-4 p-12 rounded-xl">
+    <div className="m-4 p-12 rounded-xl" style={backgroundStyle}>
       <div className="flex flex-col items-center justify-center gap-8">
         <h1 className="font-bold text-3xl">{questionData?.questionText}</h1>
         <div className="w-full flex flex-col items-center justify-center gap-4">
@@ -67,13 +67,15 @@ const Question = () => {
               selectedOption={selectedOptions[answer.id]}
               isAllCorrect={isAllCorrect}
               onToggle={(selectedOption) =>
-                handleToggles(answer.id, selectedOption)
+                handleToggle(answer.id, selectedOption)
               }
             />
           ))}
         </div>
-          <div className="font-bold text-2xl">The answer is correct</div>
-          <div className="font-bold text-2xl">{correctnessPercentage}</div>
+        <div className="font-bold text-2xl">
+          The answer is {isAllCorrect ? "correct" : "incorrect"}
+        </div>
+        <div className="font-bold text-2xl">{correctnessFactor}</div>
       </div>
     </div>
   );

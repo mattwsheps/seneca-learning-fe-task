@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useMemo } from 'react';
 import { QuestionModel, OptionModel } from '../models';
 
 interface SelectedOptions {
@@ -6,13 +6,9 @@ interface SelectedOptions {
 }
 
 const useCorrectness = (questionData: QuestionModel | undefined, selectedOptions: SelectedOptions) => {
-  const [correctCount, setCorrectCount] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
-  const [isAllCorrect, setIsAllCorrect] = useState(false);
+  const { correctCount, totalCount, isAllCorrect } = useMemo(() => {
+    if (!questionData) return { correctCount: 0, totalCount: 0, isAllCorrect: false };
 
-  const checkCorrectness = useCallback(() => {
-    if (!questionData) return;
-    
     let correct = 0;
     const total = questionData.answers.length;
 
@@ -23,12 +19,14 @@ const useCorrectness = (questionData: QuestionModel | undefined, selectedOptions
       }
     });
 
-    setCorrectCount(correct);
-    setTotalCount(total);
-    setIsAllCorrect(correct === total);
+    return {
+      correctCount: correct,
+      totalCount: total,
+      isAllCorrect: correct === total
+    };
   }, [questionData, selectedOptions]);
 
-  return { correctCount, totalCount, isAllCorrect, checkCorrectness };
+  return { correctCount, totalCount, isAllCorrect };
 };
 
 export default useCorrectness;
