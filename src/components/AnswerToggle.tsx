@@ -1,23 +1,23 @@
-import { useState } from "react";
 import AnswerToggleButton from "./AnswerToggleButton";
 import { motion } from "framer-motion";
 import { OptionModel } from "../models";
 
 interface AnswerToggleProps {
   options: OptionModel[];
+  selectedOption: OptionModel;
   isAllCorrect: boolean;
-  onToggle?: (selectedOption: OptionModel) => void;
+  onToggle: (selectedOption: OptionModel) => void;
 }
 
-const AnswerToggle = ({ options, isAllCorrect, onToggle }: AnswerToggleProps) => {
-  const [selectedOption, setSelectedOption] = useState<OptionModel>(options[0]);
-
-  const handleToggle = (option: OptionModel) => {
-    setSelectedOption(option);
-    if (onToggle) {
-      onToggle(option);
-    }
-  };
+const AnswerToggle = ({
+  options,
+  selectedOption,
+  isAllCorrect,
+  onToggle,
+}: AnswerToggleProps) => {
+  
+  // If selectedOption is undefined, default to the first option
+  const currentSelectedOption = selectedOption || options[0];
 
   return (
     <>
@@ -31,14 +31,13 @@ const AnswerToggle = ({ options, isAllCorrect, onToggle }: AnswerToggleProps) =>
         />
         {options.map((option) => (
           <AnswerToggleButton
-          key={option.id}
-          option={option}
-          isAllCorrect={isAllCorrect}
-          isSelected={selectedOption.id === option.id}
-          handleToggle={handleToggle}
-        />
+            key={option.id}
+            option={option}
+            isAllCorrect={isAllCorrect}
+            isSelected={currentSelectedOption.id === option.id}
+            handleToggle={() => onToggle(option)}
+          />
         ))}
-        
       </div>
     </>
   );

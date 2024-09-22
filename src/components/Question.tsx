@@ -22,6 +22,7 @@ const Question = () => {
   const { correctCount, totalCount, isAllCorrect, checkCorrectness } =
     useCorrectness(questionData, selectedOptions);
 
+  // Initialisation of selectedOptions object when data is fetched
   useEffect(() => {
     if (questionData) {
       initialiseSelectedOptions(questionData.answers);
@@ -63,6 +64,7 @@ const Question = () => {
             <AnswerToggle
               key={answer.id}
               options={answer.options}
+              selectedOption={selectedOptions[answer.id]}
               isAllCorrect={isAllCorrect}
               onToggle={(selectedOption) =>
                 handleToggles(answer.id, selectedOption)
