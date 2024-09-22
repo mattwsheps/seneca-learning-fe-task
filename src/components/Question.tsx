@@ -5,48 +5,7 @@ import AnswerToggle from "./AnswerToggle";
 import { useQuery } from "@tanstack/react-query";
 import useCorrectness from "../hooks/useCorrectness";
 import useSelectedOptions from "../hooks/useSelectedOptions";
-
-// Utility function to interpolate between two HSL colors
-const interpolateHSL = (
-  hsl1: number[],
-  hsl2: number[],
-  factor: number
-): string => {
-  const h = hsl1[0] + factor * (hsl2[0] - hsl1[0]);
-  const s = hsl1[1] + factor * (hsl2[1] - hsl1[1]);
-  const l = hsl1[2] + factor * (hsl2[2] - hsl1[2]);
-  return `hsl(${h}, ${s}%, ${l}%)`;
-};
-
-// Utility function to create gradient based on correctness percentage
-const createGradient = (factor: number): string => {
-  const startIncorrectLower = [33, 89, 69];
-  const endIncorrectLower = [22, 82, 55];
-
-  const startIncorrectUpper = [50, 96, 69];
-  const endIncorrectUpper = [33, 83, 56];
-
-  const startCorrect = [162, 65, 67];
-  const endCorrect = [189, 59, 60];
-
-  let startColour, endColour;
-
-  if (factor < 1) {
-    // Interpolate between red and yellow for anything other than 100% correct
-    startColour = interpolateHSL(
-      startIncorrectLower,
-      startIncorrectUpper,
-      factor
-    );
-    endColour = interpolateHSL(endIncorrectLower, endIncorrectUpper, factor);
-  } else {
-    startColour = `hsl(${startCorrect[0]}, ${startCorrect[1]}%, ${startCorrect[2]}%)`;
-    endColour = `hsl(${endCorrect[0]}, ${endCorrect[1]}%, ${endCorrect[2]}%)`;
-  }
-  console.log(`linear-gradient(to bottom, ${startColour}, ${endColour})`)
-
-  return `linear-gradient(to bottom, ${startColour}, ${endColour})`;
-};
+import { createGradient } from "../utils";
 
 const Question = () => {
   const {
