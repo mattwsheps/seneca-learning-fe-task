@@ -1,29 +1,29 @@
-import { useState } from "react";
 import AnswerToggleButton from "./AnswerToggleButton";
 import { motion } from "framer-motion";
 import { OptionModel } from "../models";
 
 interface AnswerToggleProps {
   options: OptionModel[];
+  selectedOption: OptionModel;
   isAllCorrect: boolean;
-  onToggle?: (selectedOption: OptionModel) => void;
+  onToggle: (selectedOption: OptionModel) => void;
 }
 
-const AnswerToggle = ({ options, isAllCorrect, onToggle }: AnswerToggleProps) => {
-  const [selectedOption, setSelectedOption] = useState<OptionModel>(options[0]);
-
-  const handleToggle = (option: OptionModel) => {
-    setSelectedOption(option);
-    if (onToggle) {
-      onToggle(option);
-    }
-  };
+const AnswerToggle = ({
+  options,
+  selectedOption,
+  isAllCorrect,
+  onToggle,
+}: AnswerToggleProps) => {
+  
+  // If selectedOption is undefined, default to the first option
+  const currentSelectedOption = selectedOption || options[0];
 
   return (
     <>
-      <div className="relative flex w-full max-w-screen-lg items-center justify-between border-2 border-buttonBorder rounded-full">
+      <div className="relative flex w-full max-w-screen-lg items-center justify-between border-2 border-white border-opacity-60 rounded-full">
         <motion.div
-          className="absolute h-full w-[calc(50%)] bg-buttonBorder rounded-full "
+          className="absolute h-full w-[calc(50%)] bg-white bg-opacity-60 rounded-full "
           animate={{
             x: selectedOption === options[0] ? "0px" : "calc(100%)",
           }}
@@ -31,14 +31,13 @@ const AnswerToggle = ({ options, isAllCorrect, onToggle }: AnswerToggleProps) =>
         />
         {options.map((option) => (
           <AnswerToggleButton
-          key={option.id}
-          option={option}
-          isAllCorrect={isAllCorrect}
-          isSelected={selectedOption.id === option.id}
-          handleToggle={handleToggle}
-        />
+            key={option.id}
+            option={option}
+            isAllCorrect={isAllCorrect}
+            isSelected={currentSelectedOption.id === option.id}
+            handleToggle={() => onToggle(option)}
+          />
         ))}
-        
       </div>
     </>
   );

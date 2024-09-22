@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { OptionModel, QuestionModel } from "../models";
 import { fetchQuestion } from "../services/questions";
 import AnswerToggle from "./AnswerToggle";
 import { useQuery } from "@tanstack/react-query";
 import useCorrectness from "../hooks/useCorrectness";
 import useSelectedOptions from "../hooks/useSelectedOptions";
+
 
 const Question = () => {
   const {
@@ -16,35 +17,43 @@ const Question = () => {
     queryFn: fetchQuestion,
   });
 
-  const { selectedOptions, setSelectedOptions, initialiseSelectedOptions } = useSelectedOptions();
-  const { isAllCorrect, checkIfCorrect } = useCorrectness(questionData, selectedOptions);
+  const { selectedOptions, setSelectedOptions, initialiseSelectedOptions } =
+    useSelectedOptions();
+  const { correctCount, totalCount, isAllCorrect, checkCorrectness } =
+    useCorrectness(questionData, selectedOptions);
 
+  // Initialisation of selectedOptions object when data is fetched
   useEffect(() => {
     if (questionData) {
       initialiseSelectedOptions(questionData.answers);
     }
   }, [questionData, initialiseSelectedOptions]);
 
-  const handleToggles = (answerId: string, selectedOption: OptionModel) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [answerId]: selectedOption,
-    }));
-  };
+  const handleToggles = useCallback(
+    (answerId: string, selectedOption: OptionModel) => {
+      setSelectedOptions((prev) => ({
+        ...prev,
+        [answerId]: selectedOption,
+      }));
+    },
+    [setSelectedOptions]
+  );
 
   useEffect(() => {
-    if (questionData && Object.keys(selectedOptions).length === questionData.answers.length) {
-      checkIfCorrect();
+    if (
+      questionData &&
+      Object.keys(selectedOptions).length === questionData.answers.length
+    ) {
+      checkCorrectness();
     }
-  }, [selectedOptions, questionData, checkIfCorrect]);
+  }, [selectedOptions, questionData, checkCorrectness]);
 
-  if (isLoading) {
-    return <div>Loading quiz...</div>;
-  }
+  const correctnessPercentage = useMemo(() => {
+    return totalCount > 0 ? correctCount / totalCount : 0;
+  }, [correctCount, totalCount]);
 
-  if (isError) {
-    return <div>Error loading quiz data</div>;
-  }
+  if (isLoading) return <div>Loading quiz...</div>;
+  if (isError) return <div>Error loading quiz data</div>;
 
   return (
     <div className="bg-gradient-to-b from-incorrectStart to-incorrectEnd m-4 p-12 rounded-xl">
@@ -55,6 +64,7 @@ const Question = () => {
             <AnswerToggle
               key={answer.id}
               options={answer.options}
+              selectedOption={selectedOptions[answer.id]}
               isAllCorrect={isAllCorrect}
               onToggle={(selectedOption) =>
                 handleToggles(answer.id, selectedOption)
@@ -62,11 +72,8 @@ const Question = () => {
             />
           ))}
         </div>
-        {isAllCorrect ? (
           <div className="font-bold text-2xl">The answer is correct</div>
-        ) : (
-          <div className="font-bold text-2xl">The answer is incorrect</div>
-        )}
+          <div className="font-bold text-2xl">{correctnessPercentage}</div>
       </div>
     </div>
   );
