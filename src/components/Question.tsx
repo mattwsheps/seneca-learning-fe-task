@@ -75,7 +75,6 @@ const Question = () => {
         <div className="font-bold text-2xl">
           The answer is {isAllCorrect ? "correct" : "incorrect"}
         </div>
-        <div className="font-bold text-2xl">{correctnessFactor}</div>
       </div>
     </div>
   );
