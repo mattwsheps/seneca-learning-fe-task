@@ -56,9 +56,9 @@ const Question = () => {
   if (isError) return <div>Error loading quiz data</div>;
 
   return (
-    <div className="m-4 p-12 rounded-xl" style={backgroundStyle}>
+    <div className="md:mx-4 md:p-12 py-12 px-4 md:rounded-xl text-center font-mulish text-white" style={backgroundStyle}>
       <div className="flex flex-col items-center justify-center gap-8">
-        <h1 className="font-bold text-3xl">{questionData?.questionText}</h1>
+        <h1 className="font-bold md:text-3xl sm:text-2xl text-xl">{questionData?.questionText}</h1>
         <div className="w-full flex flex-col items-center justify-center gap-4">
           {questionData?.answers.map((answer) => (
             <AnswerToggle
@@ -72,7 +72,7 @@ const Question = () => {
             />
           ))}
         </div>
-        <div className="font-bold text-2xl">
+        <div className="font-bold md:text-2xl text-xl">
           The answer is {isAllCorrect ? "correct" : "incorrect"}
         </div>
       </div>

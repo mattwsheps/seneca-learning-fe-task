@@ -21,9 +21,9 @@ const AnswerToggle = ({
 
   return (
     <>
-      <div className="relative flex w-full max-w-screen-lg items-center justify-between border-2 border-white border-opacity-60 rounded-full">
+      <div className="relative flex w-full max-w-screen-lg items-center justify-between border-2 border-white border-opacity-60 md:rounded-full rounded-3xl overflow-hidden">
         <motion.div
-          className="absolute h-full w-[calc(50%)] bg-white bg-opacity-60 rounded-full "
+          className="absolute h-full w-[calc(50%)] bg-white bg-opacity-60 md:rounded-full rounded-2xl"
           animate={{
             x: selectedOption === options[0] ? "0px" : "calc(100%)",
           }}

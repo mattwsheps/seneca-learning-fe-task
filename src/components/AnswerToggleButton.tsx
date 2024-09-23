@@ -18,8 +18,8 @@ const AnswerToggleButton = ({
     <>
       <button
         className={cn(
-          isSelected ? "text-unselected" : "hover:opacity-75",
-          "relative z-10 w-1/2 font-bold text-2xl rounded-full p-6"
+          isSelected ? "text-black opacity-30" : "hover:opacity-75",
+          "relative z-10 w-1/2 font-bold md:text-2xl sm:text-xl text-md md:rounded-full rounded-lg md:p-6 p-4"
         )}
         disabled={isAllCorrect}
         onClick={() => handleToggle(option)}
