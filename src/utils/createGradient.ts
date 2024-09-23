@@ -4,8 +4,8 @@ export const createGradient = (factor: number): string => {
   const startIncorrectLower = [33, 89, 69];
   const endIncorrectLower = [22, 82, 55];
 
-  const startIncorrectUpper = [50, 96, 69];
-  const endIncorrectUpper = [33, 83, 56];
+  const startIncorrectUpper = [60, 96, 69];
+  const endIncorrectUpper = [43, 83, 56];
 
   const startCorrect = [162, 65, 67];
   const endCorrect = [189, 59, 60];

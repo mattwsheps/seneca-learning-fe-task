@@ -3,6 +3,12 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      width: {
+        '160': '40rem',
+      },
+      maxWidth: {
+        '160': '40rem',
+      },
       colors: {
         buttonBorder: "rgba(249, 210, 159, 1)",
         unselected: "rgba(159, 147, 139, 1)",
