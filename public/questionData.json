@@ -19,7 +19,7 @@
     {
       "id": "answer-3",
       "options": [
-        { "id": "opt-1", "optionText": "Partially permeable membrane", "isCorrect": true },
+        { "id": "opt-1", "optionText": "Partially permeablemembrane", "isCorrect": true },
         { "id": "opt-2", "optionText": "Impermeable membrane", "isCorrect": false }
       ]
     },
