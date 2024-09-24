@@ -19,7 +19,7 @@ const Question = () => {
 
   const { selectedOptions, setSelectedOptions, initialiseSelectedOptions } =
     useSelectedOptions();
-  const { correctCount, totalCount, isAllCorrect } = useCorrectness(
+  const { isAllCorrect, correctnessFactor } = useCorrectness(
     questionData,
     selectedOptions
   );
@@ -40,10 +40,6 @@ const Question = () => {
     },
     [setSelectedOptions]
   );
-
-  const correctnessFactor = useMemo(() => {
-    return totalCount > 0 ? correctCount / totalCount : 0;
-  }, [correctCount, totalCount]);
 
   const backgroundStyle = useMemo(
     () => ({
