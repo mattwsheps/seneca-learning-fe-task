@@ -65,12 +65,11 @@ describe('Question Component', () => {
       initialiseSelectedOptions: vi.fn(),
     });
 
-    let correctCount = 0;
-    const totalCount = 1;
+    let correctnessFactor = 0
+    let isAllCorrect = false
     vi.spyOn(useCorrectnessModule, 'default').mockImplementation(() => ({
-      isAllCorrect: correctCount === totalCount,
-      correctCount,
-      totalCount,
+      isAllCorrect,
+      correctnessFactor
     }));
 
     const { rerender } = render(
@@ -87,7 +86,8 @@ describe('Question Component', () => {
     await userEvent.click(option1);
 
     // Simulate the change in correctness
-    correctCount = 1;
+    correctnessFactor = 1;
+    isAllCorrect = true
     rerender(
       <QueryClientProvider client={queryClient}>
         <Question />
