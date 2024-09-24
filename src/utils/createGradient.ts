@@ -24,7 +24,6 @@ export const createGradient = (factor: number): string => {
     startColour = `hsl(${startCorrect[0]}, ${startCorrect[1]}%, ${startCorrect[2]}%)`;
     endColour = `hsl(${endCorrect[0]}, ${endCorrect[1]}%, ${endCorrect[2]}%)`;
   }
-  console.log(`linear-gradient(to bottom, ${startColour}, ${endColour})`)
 
   return `linear-gradient(to bottom, ${startColour}, ${endColour})`;
 };
