@@ -176,15 +176,15 @@ To ensure scalability and maintainability, I organised the project with the foll
 
 ```bash
 ├── src/
-│   ├── components/      # Core components
+│   ├── components/      # UI components
 │   ├── services/        # Business logic
-│   ├── utils/           # Helper functions
-│   ├── models/          # 
-│   └── hooks/           # 
-├── tests/               # Unit and integration tests
-├── App.tsx
-├── index.css
-└── main.tsx
+│   ├── utils/           # Utility functions
+│   ├── models/          # Data models
+│   └── hooks/           # Custom hooks
+├── tests/               # Test files
+├── App.tsx              # Main app component
+├── index.css            # Global styles
+└── main.tsx             # App entry point
 ```
 
 ---
