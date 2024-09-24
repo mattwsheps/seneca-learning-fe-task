@@ -26,7 +26,11 @@ const useCorrectness = (questionData: QuestionModel | undefined, selectedOptions
     };
   }, [questionData, selectedOptions]);
 
-  return { correctCount, totalCount, isAllCorrect };
+  const correctnessFactor = useMemo(() => {
+    return totalCount > 0 ? correctCount / totalCount : 0;
+  }, [correctCount, totalCount]);
+
+  return { isAllCorrect, correctnessFactor };
 };
 
 export default useCorrectness;
