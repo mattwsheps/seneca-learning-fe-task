@@ -1,11 +1,13 @@
 import { cn } from "../utils/cn";
 import { OptionModel } from "../models";
+import { useRef } from "react";
 
 interface AnswerToggleButtonProps {
   option: OptionModel;
   isAllCorrect: boolean;
   isSelected: boolean;
   handleToggle: (option: OptionModel) => void;
+  isStacked: boolean;
 }
 
 const AnswerToggleButton = ({
@@ -13,20 +15,24 @@ const AnswerToggleButton = ({
   isAllCorrect,
   isSelected,
   handleToggle,
+  isStacked,
 }: AnswerToggleButtonProps) => {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   return (
-    <>
-      <button
-        className={cn(
-          isSelected ? "text-black opacity-30" : "hover:opacity-75",
-          "relative z-10 w-1/2 font-bold md:text-2xl sm:text-xl text-md md:rounded-full rounded-lg md:p-6 p-4"
-        )}
-        disabled={isAllCorrect}
-        onClick={() => handleToggle(option)}
-      >
-        {option.optionText}
-      </button>
-    </>
+    <button
+      ref={buttonRef}
+      className={cn(
+        isSelected ? "text-black opacity-30" : "hover:opacity-75",
+        isAllCorrect && !isSelected && "hover:opacity-100",
+        isStacked ? "w-full flex-1" : "flex-1", 
+        "relative flex items-center justify-center z-10 font-bold md:text-2xl text-lg md:rounded-full rounded-lg p-4",
+      )}
+      disabled={isAllCorrect}
+      onClick={() => handleToggle(option)}
+    >
+      {option.optionText}
+    </button>
   );
 };
 
