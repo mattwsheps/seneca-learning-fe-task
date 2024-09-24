@@ -27,8 +27,8 @@ describe('useCorrectness', () => {
 
   it('returns correct values when all answers are correct', () => {
     const selectedOptions = {
-      'a-1': { id: '1', optionText: 'Option 1', isCorrect: true },
-      'a-2': { id: '4', optionText: 'Option 4', isCorrect: true },
+      'a-1': { id: 'o-1', optionText: 'Option 1', isCorrect: true },
+      'a-2': { id: 'o-4', optionText: 'Option 4', isCorrect: true },
     };
 
     const { result } = renderHook(() => useCorrectness(mockQuestionData, selectedOptions));
