@@ -226,8 +226,8 @@ I designed the component structure to ensure all state was lifted to the parent 
     
     To address this, I experimented with a vertically stacked layout when overflow was detected. Unfortunately, this resulted in an infinite feedback loop where switching between horizontal and vertical layouts caused continuous changes. I am still exploring alternative approaches to this issue. For more details, please see the following branches:
     
-    - [Link to Branch 1]
-    - [Link to Branch 2]
+    - [Method 1](https://github.com/mattwsheps/seneca-learning-fe-task/tree/mobile-responsive)
+    - [Method 2](https://github.com/mattwsheps/seneca-learning-fe-task/tree/mobile-responsive-2)
 
 ---
 ## Testing
