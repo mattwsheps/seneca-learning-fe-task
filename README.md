@@ -25,7 +25,7 @@ Make sure you have **Node.js** installed. If not, download it from [nodejs.org](
 1. **Clone the repository:**
 ```bash  
 git clone git@github.com:mattwsheps/seneca-learning-fe-task.git
-cd seneca-learning-fe-task.git
+cd seneca-learning-fe-task
 ```  
   
 2. **Install dependencies:** 
