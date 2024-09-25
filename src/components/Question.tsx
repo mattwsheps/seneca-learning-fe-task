@@ -48,6 +48,11 @@ const Question = () => {
     [correctnessFactor]
   );
 
+  const shuffledAnswers = useMemo(() => {
+    if (!questionData) return [];
+    return [...questionData.answers].sort(() => Math.random() - 0.5);
+  }, [questionData]);
+
   if (isLoading) return <div>Loading quiz...</div>;
   if (isError) return <div>Error loading quiz data</div>;
 
@@ -56,7 +61,7 @@ const Question = () => {
       <div className="flex flex-col items-center justify-center gap-8">
         <h1 className="font-bold md:text-3xl sm:text-2xl text-xl">{questionData?.questionText}</h1>
         <div className="w-full flex flex-col items-center justify-center gap-4">
-          {questionData?.answers.map((answer) => (
+          {shuffledAnswers.map((answer) => (
             <AnswerToggle
               key={answer.id}
               options={answer.options}
