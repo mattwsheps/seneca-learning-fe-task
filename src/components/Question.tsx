@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import useCorrectness from "../hooks/useCorrectness";
 import useSelectedOptions from "../hooks/useSelectedOptions";
 import { createGradient } from "../utils";
+import useShuffledArray from "../hooks/useShuffledArray";
 
 const Question = () => {
   const {
@@ -23,6 +24,7 @@ const Question = () => {
     questionData,
     selectedOptions
   );
+  const shuffledAnswers = useShuffledArray(questionData?.answers);
 
   // Initialisation of selectedOptions object when data is fetched
   useEffect(() => {
@@ -47,11 +49,6 @@ const Question = () => {
     }),
     [correctnessFactor]
   );
-
-  const shuffledAnswers = useMemo(() => {
-    if (!questionData) return [];
-    return [...questionData.answers].sort(() => Math.random() - 0.5);
-  }, [questionData]);
 
   if (isLoading) return <div>Loading quiz...</div>;
   if (isError) return <div>Error loading quiz data</div>;
