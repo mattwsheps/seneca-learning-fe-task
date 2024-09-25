@@ -24,29 +24,30 @@ const AnswerToggle = ({
 
   const shuffledOptions = useShuffledArray(options);
 
-  const isFirstOptionSelected: boolean = selectedOption
-    ? selectedOption.id === shuffledOptions[0].id
-    : true;
-
   return (
     <div
       ref={containerRef}
       className={cn(
-        "relative w-full max-w-screen-lg border-2 border-white border-opacity-60 md:rounded-full rounded-3xl overflow-hidden"
+        options.length > 2 ? "w-full" : "w-full max-w-screen-lg",
+        "relative border-2 border-white border-opacity-60 md:rounded-full rounded-3xl overflow-hidden"
       )}
     >
       <motion.div
         className={cn(
           "absolute bg-white bg-opacity-60",
           isStacked
-            ? "w-full h-1/2 rounded-none"
-            : "w-1/2 h-full md:rounded-full rounded-2xl"
+            ? `w-full h-1/${shuffledOptions.length} rounded-none`
+            : `w-1/${shuffledOptions.length} h-full md:rounded-full rounded-2xl`
         )}
         animate={{
-          y: isStacked ? (isFirstOptionSelected ? "0%" : "100%") : 0,
-          x: isStacked ? 0 : isFirstOptionSelected ? "0%" : "100%",
+          y: isStacked 
+            ? `${shuffledOptions.findIndex(option => option.id === selectedOption?.id) * 100}%`
+            : 0,
+          x: isStacked 
+            ? 0 
+            : `${shuffledOptions.findIndex(option => option.id === selectedOption?.id) * 100}%`,
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        transition={{ type: "spring", stiffness: 300, damping: 32 }}
       />
       <div
         className={cn(

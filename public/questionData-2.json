@@ -1,0 +1,35 @@
+{
+  "id": "question-1",
+  "questionText": "What are the ideal conditions inside an office?",
+  "answers": [
+    {
+      "id": "answer-1",
+      "options": [
+        { "id": "opt-1", "optionText": "Good pay", "isCorrect": true },
+        { "id": "opt-2", "optionText": "Bad pay", "isCorrect": false },
+        { "id": "opt-3", "optionText": "No pay", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "answer-2",
+      "options": [
+        { "id": "opt-1", "optionText": "Lot of meetings", "isCorrect": false },
+        { "id": "opt-2", "optionText": "Less meetings", "isCorrect": true }
+      ]
+    },
+    {
+      "id": "answer-3",
+      "options": [
+        { "id": "opt-1", "optionText": "Free coffee", "isCorrect": true },
+        { "id": "opt-2", "optionText": "Expensive coffee", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "answer-4",
+      "options": [
+        { "id": "opt-1", "optionText": "Bear in office", "isCorrect": false },
+        { "id": "opt-2", "optionText": "Dog in office", "isCorrect": true }
+      ]
+    }
+  ]
+}
