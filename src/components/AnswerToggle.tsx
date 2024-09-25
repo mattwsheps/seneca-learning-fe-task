@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import AnswerToggleButton from "./AnswerToggleButton";
 import { OptionModel } from "../models";
@@ -22,7 +22,12 @@ const AnswerToggle: React.FC<AnswerToggleProps> = ({
   const measureText = useTextMeasurement();
   const { containerRef, isStacked } = useLayoutCheck(options, measureText);
 
-  const isFirstOptionSelected = selectedOption ? selectedOption.id === options[0].id : true;
+  const shuffledOptions = useMemo(() => {
+    if (!options) return [];
+    return [...options].sort(() => Math.random() - 0.5);
+  }, [options]);
+
+  const isFirstOptionSelected: boolean = selectedOption ? selectedOption.id === shuffledOptions[0].id : true;
 
   return (
     <div
@@ -50,7 +55,7 @@ const AnswerToggle: React.FC<AnswerToggleProps> = ({
           isStacked ? "grid grid-rows-2 h-full" : "flex flex-row"
         )}
       >
-        {options.map((option) => (
+        {shuffledOptions.map((option) => (
           <AnswerToggleButton
             key={option.id}
             option={option}
