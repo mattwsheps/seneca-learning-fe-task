@@ -1,10 +1,10 @@
-import React from "react";
 import { motion } from "framer-motion";
 import AnswerToggleButton from "./AnswerToggleButton";
 import { OptionModel } from "../models";
 import { cn } from "../utils";
 import useTextMeasurement from "../hooks/useTextMeasurement";
 import useLayoutCheck from "../hooks/useLayoutCheck";
+import useShuffledArray from "../hooks/useShuffledArray";
 
 interface AnswerToggleProps {
   options: OptionModel[];
@@ -13,16 +13,20 @@ interface AnswerToggleProps {
   onToggle: (selectedOption: OptionModel) => void;
 }
 
-const AnswerToggle: React.FC<AnswerToggleProps> = ({
+const AnswerToggle = ({
   options,
   selectedOption,
   isAllCorrect,
   onToggle,
-}) => {
+}: AnswerToggleProps) => {
   const measureText = useTextMeasurement();
   const { containerRef, isStacked } = useLayoutCheck(options, measureText);
 
-  const isFirstOptionSelected = selectedOption ? selectedOption.id === options[0].id : true;
+  const shuffledOptions = useShuffledArray(options);
+
+  const isFirstOptionSelected: boolean = selectedOption
+    ? selectedOption.id === shuffledOptions[0].id
+    : true;
 
   return (
     <div
@@ -50,12 +54,14 @@ const AnswerToggle: React.FC<AnswerToggleProps> = ({
           isStacked ? "grid grid-rows-2 h-full" : "flex flex-row"
         )}
       >
-        {options.map((option) => (
+        {shuffledOptions.map((option) => (
           <AnswerToggleButton
             key={option.id}
             option={option}
             isAllCorrect={isAllCorrect}
-            isSelected={selectedOption ? selectedOption.id === option.id : false}
+            isSelected={
+              selectedOption ? selectedOption.id === option.id : false
+            }
             handleToggle={() => onToggle(option)}
             isStacked={isStacked}
           />

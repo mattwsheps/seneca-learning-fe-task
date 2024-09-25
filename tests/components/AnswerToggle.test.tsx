@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 import AnswerToggle from '../../src/components/AnswerToggle';
 
 
-
 const mockOptions = [
   { id: 'o-1', optionText: 'Option 1', isCorrect: true },
   { id: 'o-2', optionText: 'Option 2', isCorrect: false },

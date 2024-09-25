@@ -10,9 +10,28 @@ const useSelectedOptions = () => {
 
   const initialiseSelectedOptions = useCallback((answers: AnswerModel[]) => {
     const initialSelectedOptions: SelectedOptions = {};
-    answers.forEach((answer) => {
-      initialSelectedOptions[answer.id] = answer.options[0];
+    let hasIncorrectSelection = false;
+
+    answers.forEach((answer, index) => {
+      const options = answer.options;
+      const randomOption = options[Math.floor(Math.random() * options.length)];
+      
+      if (!randomOption.isCorrect) {
+        hasIncorrectSelection = true;
+      }
+
+      initialSelectedOptions[answer.id] = randomOption;
+
+      // If we're at the last answer and still don't have an incorrect selection,
+      // force an incorrect selection
+      if (index === answers.length - 1 && !hasIncorrectSelection) {
+        const incorrectOption = options.find(option => !option.isCorrect);
+        if (incorrectOption) {
+          initialSelectedOptions[answer.id] = incorrectOption;
+        }
+      }
     });
+
     setSelectedOptions(initialSelectedOptions);
   }, []);
 

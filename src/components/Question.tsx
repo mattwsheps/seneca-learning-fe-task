@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import useCorrectness from "../hooks/useCorrectness";
 import useSelectedOptions from "../hooks/useSelectedOptions";
 import { createGradient } from "../utils";
+import useShuffledArray from "../hooks/useShuffledArray";
 
 const Question = () => {
   const {
@@ -23,6 +24,7 @@ const Question = () => {
     questionData,
     selectedOptions
   );
+  const shuffledAnswers = useShuffledArray(questionData?.answers);
 
   // Initialisation of selectedOptions object when data is fetched
   useEffect(() => {
@@ -56,7 +58,7 @@ const Question = () => {
       <div className="flex flex-col items-center justify-center gap-8">
         <h1 className="font-bold md:text-3xl sm:text-2xl text-xl">{questionData?.questionText}</h1>
         <div className="w-full flex flex-col items-center justify-center gap-4">
-          {questionData?.answers.map((answer) => (
+          {shuffledAnswers.map((answer) => (
             <AnswerToggle
               key={answer.id}
               options={answer.options}
