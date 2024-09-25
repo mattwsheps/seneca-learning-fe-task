@@ -222,12 +222,9 @@ I designed the component structure to ensure all state was lifted to the parent 
 	I used the same custom hooks in combination with utility functions to calculate dynamic colour changes. As outlined in the [assumptions](#assumptions), I achieved this by interpolating HSL values between red (incorrect) and yellow (partially correct), transitioning to cyan when all answers were correct, as seen in the Figma designs and attached video.
     
 - **"The component should be responsive down to screens 320px wide"** 
-	Initially, I used **Tailwind CSS** breakpoints to adjust font sizes and padding, which worked well for the given question data. However, for answers with longer word lengths, this caused overflow issues that impacted readability.
+	Initially, I used **Tailwind CSS** breakpoints to adjust font sizes and padding, which worked well for most cases but caused text overflow with longer words. To address this, I decided to implement a stacked layout for the toggles when overflow was detected. However, this initially posed an issue, as my first approach compared `scrollWidth` to `clientWidth` to detect overflow. This caused an infinite loop: when the layout switched from horizontal to vertical, the overflow condition would disappear, causing it to switch back, leading to continuous flickering. The core issue was that the layout itself became a dependency for the overflow check, creating a circular problem.
     
-    To address this, I experimented with a vertically stacked layout when overflow was detected. Unfortunately, this resulted in an infinite feedback loop where switching between horizontal and vertical layouts caused continuous changes. I am still exploring alternative approaches to this issue. For more details, please see the following branches:
-    
-    - [Method 1](https://github.com/mattwsheps/seneca-learning-fe-task/tree/mobile-responsive)
-    - [Method 2](https://github.com/mattwsheps/seneca-learning-fe-task/tree/mobile-responsive-2)
+    To overcome this, I implemented a new solution that measures the length of individual words against the available space in the horizontal layout. If a word exceeds this width, the layout switches to vertical and stays stable. This method avoids relying on the current layout state and instead bases the decision purely on content, breaking the feedback loop. By measuring word length rather than the container’s overflow, the solution is now both more accurate and stable.
 
 ---
 ## Testing
@@ -241,13 +238,11 @@ Given more time, I would have adopted a Test-Driven Development (TDD) approach t
 --- 
 ## Limitations
 
-- **Responsive Layout Issues**: As mentioned in the requirements, the component currently struggles with longer words causing text overflow. The toggle's vertical stacking state needs further refinement to handle these cases without causing layout feedback loops.
+- **Initial Toggle Selections Are Not Randomised**: Currently, the toggle positions are always the same when the component renders. This means that if users encounter the same question multiple times, they could remember the toggle pattern rather than engaging with the content. Additionally, there's a small chance that the toggles may start in the correct positions, instantly locking the component without interaction. Randomising the initial positions will be addressed in future work.
 
 - **Dynamic Component Rendering**: The component dynamically renders based on the number of options using `.map()`, allowing it to handle cases with more than two options. However, the styling and `motion.div` for layouts with three or more options needs further adjustments.
 
-- **Test Coverage**: The current solution requires additional test coverage, both unit and integration tests, to handle edge cases and ensure reliability across different scenarios.
-
-- **End-to-End Testing**: While basic testing has been done, the project would benefit from end-to-end testing with a tool like **Cypress** to ensure the complete user flow works as expected.
+- **Test Coverage**: The current test suite includes unit tests for components, hooks, and the service layer, but needs expanded coverage, especially for edge cases. Future improvements will include more comprehensive integration and end-to-end testing.
 
 ---
 ## Conclusion
