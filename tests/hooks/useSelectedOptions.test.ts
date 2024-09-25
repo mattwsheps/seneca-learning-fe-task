@@ -39,7 +39,7 @@ describe('useSelectedOptions', () => {
   });
 
   it('initialises selected options randomly', () => {
-    Math.random = vi.fn(() => 0.7);
+    Math.random = vi.fn(() => 0.7); // This would select second option in each answer array
 
     const { result } = renderHook(() => useSelectedOptions());
 
@@ -54,7 +54,7 @@ describe('useSelectedOptions', () => {
   });
 
   it('ensures at least one incorrect selection', () => {
-    Math.random = vi.fn(() => 0.2); // This would normally select all correct answers
+    Math.random = vi.fn(() => 0.2); // This would select first option in each answer array
 
     const { result } = renderHook(() => useSelectedOptions());
 
