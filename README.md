@@ -5,7 +5,7 @@ The task is to make a component using React. The component is intended to test t
 ---
 ## Table of Contents
 
-1. [Installation](#installation)
+1. [Installation & Setup](#installation)
 2. [Requirements](#requirements)
 3. [Assumptions](#assumptions)
 4. [Approach to the Problem](#approach-to-the-problem)
@@ -18,7 +18,7 @@ The task is to make a component using React. The component is intended to test t
 11. [Conclusion](#conclusion)
 
 ---
-## Installation
+## Installation & Setup
 
 Make sure you have **Node.js** installed. If not, download it from [nodejs.org](https://nodejs.org/).
 
@@ -39,6 +39,9 @@ npm run dev
 ```
 
 > The server should be running on http://localhost:5173/
+
+>[!IMPORTANT] Loading in your own questions
+>To load in your own question data, navigate to the `public` folder and edit the `questionData.json` file.
 
 ---
 ## Requirements
