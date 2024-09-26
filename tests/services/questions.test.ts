@@ -9,14 +9,14 @@ describe('fetchQuestion', () => {
   });
 
   it('fetches question data successfully', async () => {
-    const mockData = { questionText: 'Test Question' };
+    const mockData = [{ questionText: 'Test Question' }];
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: () => Promise.resolve(mockData),
     });
 
     const result = await fetchQuestion();
-    expect(result).toEqual(mockData);
+    expect(result).toEqual(mockData[0]);
     expect(global.fetch).toHaveBeenCalledWith('/questionData.json');
   });
 
