@@ -40,7 +40,7 @@ npm run dev
 
 > The server should be running on http://localhost:5173/
 
->[!IMPORTANT] Loading in your own questions
+>[!IMPORTANT]
 >To load in your own question data, navigate to the `public` folder and edit the `questionData.json` file.
 
 ---
