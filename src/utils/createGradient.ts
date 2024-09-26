@@ -1,10 +1,10 @@
 import interpolateHSL from "./interpolateHSL";
 
 export const createGradient = (factor: number): string => {
-  const startIncorrectLower = [33, 89, 69];
-  const endIncorrectLower = [22, 82, 55];
+  const startIncorrectLower = [20, 76, 77];
+  const endIncorrectLower = [10, 75, 67];
 
-  const startIncorrectUpper = [60, 96, 69];
+  const startIncorrectUpper = [60, 70, 69];
   const endIncorrectUpper = [43, 83, 56];
 
   const startCorrect = [162, 65, 67];
