@@ -13,8 +13,8 @@ The task is to make a component using React. The component is intended to test t
 6. [Project Organisation](#project-organisation)
 7. [Components](#components)
 8. [Fulfilling the requirements](#fulfilling-the-requirements)
-9. [Limitations](#limitations)
-10. [Testing](#testing)
+9. [Testing](#testing)
+10. [Limitations](#limitations)
 11. [Conclusion](#conclusion)
 
 ---
