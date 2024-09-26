@@ -13,6 +13,7 @@ const Question = () => {
     data: questionData,
     isLoading,
     isError,
+    refetch
   } = useQuery<QuestionModel, Error>({
     queryKey: ["quizData"],
     queryFn: fetchQuestion,
@@ -50,6 +51,10 @@ const Question = () => {
     [correctnessFactor]
   );
 
+  const handleNextQuestion = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
   if (isLoading) return <div>Loading quiz...</div>;
   if (isError) return <div>Error loading quiz data</div>;
 
@@ -73,6 +78,12 @@ const Question = () => {
         <div className="font-bold md:text-2xl text-xl">
           The answer is {isAllCorrect ? "correct" : "incorrect"}
         </div>
+        <button
+          className="bg-white bg-opacity-40 hover:bg-opacity-50 text-white font-bold md:px-6 md:py-4 px-4 py-2 md:text-xl text-lg md:rounded-full rounded-3xl"
+          onClick={handleNextQuestion}
+        >
+          Next Question
+        </button>
       </div>
     </div>
   );
