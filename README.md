@@ -43,7 +43,7 @@ npm run dev
 ---
 ## Requirements
 
-### UI/UX Requirements
+### Core Requirements (UI/UX)
 
 1. The solution should lock once the correct answer is reached so the toggles can no longer be switched
 2. The toggles should animate between the two states
@@ -57,6 +57,13 @@ npm run dev
 3. Please implement your solution in React + Typescript. You may choose any other tools and technologies as you see appropriate
 4. The component should be reusable & extendable, it should be able to accommodate the question changing from that in the video to eg.: 
 	- Q. "What are the ideal conditions inside an office?" A. (good pay, bad pay) (lot of meetings, less meetings), (free coffee, expensive coffee), (bear in office, dog in office).
+
+### Extension Tasks
+
+1. The order of the questions & answer positions should be randomised
+2. Your solution should be able to accommodate answers with both two and three toggle positions in the answers. For example:
+	- Q. "Which are the best sports people & teams?" A. (Liverpool, Chelsea, Man Utd), (Serena Williams, Naomi Osaka)
+3. You should make it easy to switch between the active question
 
 ---
 ## Assumptions
@@ -212,6 +219,8 @@ I designed the component structure to ensure all state was lifted to the parent 
 ---
 ## Fulfilling the Requirements
 
+### Core Requirements
+
 - **"The toggles should animate between the two states"** 
 	Since my approach prioritised styling first, I addressed this requirement early. Using a **Framer Motion** div, I animated the movement of the toggle between the two button positions based on which one is selected.
     
@@ -226,6 +235,17 @@ I designed the component structure to ensure all state was lifted to the parent 
     
     To overcome this, I implemented a new solution that measures the length of individual words against the available space in the horizontal layout. If a word exceeds this width, the layout switches to vertical and stays stable. This method avoids relying on the current layout state and instead bases the decision purely on content, breaking the feedback loop. By measuring word length rather than the container’s overflow, the solution is now both more accurate and stable.
 
+### Extension
+
+- **The order of the questions and answer positions should be randomised**
+	To achieve this, I created a new `useShuffledArray` hook to randomise both the answers and options array. The existing `useSelectedOptions` hook was updated to randomise the initial toggle selections as well. Additionally, I ensured that at least one answer is always incorrect at first to prevent the component from rendering in a fully correct state.
+
+- **Your solution should accommodate answers with both two and three toggle positions**
+	This was addressed by updating the **Tailwind CSS** classes to adapt dynamically based on the length of the answers array. I also modified how the **Framer Motion** div's `x` and `y` values are calculated to ensure smooth animations when dealing with different toggle lengths.
+
+- **You should make it easy to switch between the active question**  
+	I added functionality to allow the user to change questions, with the aim of showing off the component's robustness. The incoming question data was restructured as an array of JSON objects, and the fetch function was updated to increment the question index on each `refetch`. A button was added to trigger the `refetch` function, and switch to the next question. In a real-world scenario, this logic would likely be handled by the backend.
+
 ---
 ## Testing
 
@@ -238,11 +258,14 @@ Given more time, I would have adopted a Test-Driven Development (TDD) approach t
 --- 
 ## Limitations
 
-- **Initial Toggle Selections Are Not Randomised**: Currently, the toggle positions are always the same when the component renders. This means that if users encounter the same question multiple times, they could remember the toggle pattern rather than engaging with the content. Additionally, there's a small chance that the toggles may start in the correct positions, instantly locking the component without interaction. Randomising the initial positions will be addressed in future work.
+- **Randomisation of Selected Toggles**: 
+	Currently, the randomisation logic has a fallback mechanism that ensures at least one incorrect answer by simply changing the last toggle to an incorrect option if all are initially correct. While this ensures the component doesn't render fully correct, it's not fully random. In a real-world scenario, this limitation would be discussed with stakeholders, as handling this edge case is currently out of scope.
 
-- **Dynamic Component Rendering**: The component dynamically renders based on the number of options using `.map()`, allowing it to handle cases with more than two options. However, the styling and `motion.div` for layouts with three or more options needs further adjustments.
+- **Simplistic Implementation of the "Next Question" Button**: 
+	The current implementation for switching between questions is basic, as it simply increments the question index and refetches data. In a real-world scenario, this functionality would typically be managed by the backend, providing a more robust solution.
 
-- **Test Coverage**: The current test suite includes unit tests for components, hooks, and the service layer, but needs expanded coverage, especially for edge cases. Future improvements will include more comprehensive integration and end-to-end testing.
+- **Test Coverage**: 
+	The current test suite includes unit tests for components, hooks, and the service layer, but needs expanded coverage, especially for edge cases. Future improvements will include more comprehensive integration and end-to-end testing.
 
 ---
 ## Conclusion
