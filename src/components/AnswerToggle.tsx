@@ -5,6 +5,7 @@ import { cn } from "../utils";
 import useTextMeasurement from "../hooks/useTextMeasurement";
 import useLayoutCheck from "../hooks/useLayoutCheck";
 import useShuffledArray from "../hooks/useShuffledArray";
+import { getMotionDivClasses } from "../utils/getMotionDivClasses";
 
 interface AnswerToggleProps {
   options: OptionModel[];
@@ -21,7 +22,6 @@ const AnswerToggle = ({
 }: AnswerToggleProps) => {
   const measureText = useTextMeasurement();
   const { containerRef, isStacked } = useLayoutCheck(options, measureText);
-
   const shuffledOptions = useShuffledArray(options);
 
   return (
@@ -35,9 +35,8 @@ const AnswerToggle = ({
       <motion.div
         className={cn(
           "absolute bg-white bg-opacity-60",
-          isStacked
-            ? `w-full h-1/${shuffledOptions.length} rounded-none`
-            : `w-1/${shuffledOptions.length} h-full md:rounded-full rounded-2xl`
+          getMotionDivClasses(options.length, isStacked),
+          isStacked ? "rounded-none" : "md:rounded-full rounded-2xl"
         )}
         animate={{
           y: isStacked 
