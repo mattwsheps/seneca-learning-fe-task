@@ -27,7 +27,6 @@ const Question = () => {
   );
   const shuffledAnswers = useShuffledArray(questionData?.answers);
 
-  // Initialisation of selectedOptions object when data is fetched
   useEffect(() => {
     if (questionData) {
       initialiseSelectedOptions(questionData.answers);
